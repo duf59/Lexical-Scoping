@@ -1,7 +1,7 @@
 # cachematrix.R
 #
 # Author    : duf59
-# Date      : November, 19, 2014
+# Date      : November, 20, 2014
 # R version : R-3.1.1
 #
 # This file is part of the programming assignment 2
@@ -33,13 +33,13 @@
 
 
 makeCacheMatrix <- function(matrix.value = matrix()) {
-  # creates a "matrix"-object.
+  # creates a "matrix"-object which is a list of functions
   #
   # Arg:
   #   - x: a square matrix
   #
   # Returns:
-  #   - A "matrix"-object which is a list of functions:
+  #   - a "matrix"-object which is a list of the following functions:
   #     -- set():         set the value of the matrix
   #     -- get():         get the value of the matrix
   #     -- setInverse():  set the value of the inverse matrix,
@@ -63,6 +63,7 @@ makeCacheMatrix <- function(matrix.value = matrix()) {
   
   setInverse <- function(passed.inverse) {
     # to set the inverse of a "matrix"-object
+    # should not be called directly, only from the function cacheSolve()
     matrix.inverse <<- passed.inverse
   }
   
@@ -86,18 +87,18 @@ cacheSolve <- function(matrix.object, ...) {
   #
   # Returns:
   #   - the inverse of the matrix contained in the "matrix"-object
-  #     If the inverse was already computed , it skips the computation and
+  #     If the inverse was already computed, it skips the computation and
   #     retrieves the inverse from matrix.object.
   #     Otherwise, inverse is calculated and stored in matrix.object
 
   matrix.inverse <- matrix.object$getInverse()
   
-  if(!is.null(matrix.inverse)) {      # inverse already present in matrix.object
-    message("getting cached data")    # return the stored value
+  if(!is.null(matrix.inverse)) {      # inverse is already present in matrix.object
+    message("getting cached data")    # --> return the stored value
     return(matrix.inverse)
   }
   
-  # If inverse is not present in matrix.object, compute it ...
+  # If inverse is not present in matrix.object, --> compute it ...
   matrix.value <- matrix.object$get()     
   matrix.inverse <- solve(matrix.value, ...)
   
